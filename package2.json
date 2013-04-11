@@ -1,0 +1,23 @@
+{
+  "name": "color-and-wonder",
+  "version": "0.0.3",
+  "private": true,
+  "main": "./server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "locomotive": "0.3.x",
+    "express": "3.x.x",
+    "connect-powered-by": "0.1.x",
+    "connect-flash": "*",
+    "jade": "*",
+    "mongoose": "3.6.x",
+    "less-middleware": "*",
+    "locomotive-mongoose": "*",
+    "passport": "0.1.x",
+    "passport-facebook": "*",
+    "passport-twitter": "*",
+    "passport-local": "*"
+  }
+}
