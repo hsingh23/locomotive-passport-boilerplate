@@ -1,18 +1,29 @@
 var express = require('express');
 var passport = require('passport');
 var mongoose = require('mongoose');
-var mongoStore = require('connect-mongodb');
+var MongoStore = require('connect-mongo')(express);
 
 module.exports = function() {
+  // Warn of version mismatch between global "lcm" binary and local installation
+  // of Locomotive.
+  if (this.version !== require('locomotive').version) {
+    console.warn(util.format('version mismatch between local (%s) and global (%s) Locomotive module', require('locomotive').version, this.version));
+  }
   this.set('views', __dirname + '/../../app/views');
   this.set('view engine', 'jade');
+
+  // Register jade as a template engine.
+  this.engine('jade', require('jade').__express);
+  this.format('html', { extension: '.jade' });
 
   this.use(express.logger());
   this.use(express.cookieParser());
   this.use(express.bodyParser());
   this.use(express.session({
-    secret: 'secret',
-    store: new mongoStore({db: mongoose.connection.db})
+    secret: 'yo',
+    store: new MongoStore({
+      db: 'skylines'
+    })
   }));
   this.use(passport.initialize());
   this.use(passport.session());
