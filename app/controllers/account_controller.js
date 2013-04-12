@@ -1,52 +1,77 @@
-var locomotive = require('locomotive');
-var passport = require('passport');
-var Controller = locomotive.Controller;
-
-var Account = require('../models/account');
-
-var AccountController = new Controller();
+var locomotive = require('locomotive')
+, passport = require('passport')
+, Controller = locomotive.Controller
+, Account = require('../models/account')
+, AccountController = new Controller();
 
 AccountController.show = function() {
-  if (!this.req.isAuthenticated())
+  "use strict";
+  if (!this.req.isAuthenticated()){
     return this.res.redirect(this.urlFor({ action: 'login' }));
+  }
 
   this.user = this.req.user;
   this.render();
 };
 
 AccountController.new = function() {
+  "use strict";
   this.render();
 };
 
 AccountController.loginForm = function() {
+  "use strict";
   this.render();
 };
 
 AccountController.create = function() {
-  var account = new Account();
+  "use strict";
+  var account = new Account()
+  , self = this;
 
+  account.username = this.param('username');
   account.email = this.param('email');
   account.password = this.param('password');
-  account.name.first = this.param('name.first');
-  account.name.last = this.param('name.last');
+  account.name = this.param('name');
 
-  var self = this;
   account.save(function (err) {
-    if (err)
+    if (err){
       return self.redirect(self.urlFor({ action: 'new' }));
-
+    }
     return self.redirect(self.urlFor({ action: 'login' }));
   });
 };
 
+AccountController.twitter = function() {
+  "use strict";
+  passport.authenticate('twitter')(this.req, this.res, this.next);
+};
+
+AccountController.twitterCallback = function() {
+  "use strict";
+  passport.authenticate('twitter', { successRedirect: this.accountPath(), failureRedirect: '/fail' })(this.req, this.res, this.next);
+};
+
+AccountController.facebook = function() {
+  "use strict";
+  passport.authenticate('facebook')(this.req, this.res, this.next);
+};
+
+AccountController.facebookCallback = function() {
+  "use strict";
+  passport.authenticate('facebook', { successRedirect: this.accountPath(), failureRedirect: '/fail' })(this.req, this.res, this.next);
+};
+
 AccountController.login = function() {
+  "use strict";
   passport.authenticate('local', {
     successRedirect: this.urlFor({ action: 'show' }),
     failureRedirect: this.urlFor({ action: 'login' }) }
-  )(this.__req, this.__res, this.__next);
+  )(this.req, this.res, this.next);
 };
 
 AccountController.logout = function() {
+  "use strict";
   this.req.logout();
   this.redirect('/');
 };
