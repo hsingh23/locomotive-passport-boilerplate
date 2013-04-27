@@ -1,5 +1,5 @@
 var locomotive = require('locomotive'),
-  address = process.env.VCAP_APP_HOST || 'localhost',
+  address = process.env.VCAP_APP_HOST || '0.0.0.0',
   env = process.env.NODE_ENV || 'development',
   port =  process.argv[2] || process.env.VMC_APP_PORT || process.env.PORT || 3000;
 

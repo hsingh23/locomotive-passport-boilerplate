@@ -1,11 +1,20 @@
 module.exports = function routes() {
   this.root('pages#main');
-  this.resource('account');
+  this.get('about','pages#about');
+
+  this.resource('account', { except: ['destroy', 'index'] });
   this.get('login', 'account#loginForm');
   this.post('login', 'account#login');
-  this.match('auth/twitter/', 'account#twitter');
-  this.match('auth/twitter/callback/', 'account#twitterCallback');
-  this.match('auth/facebook/', 'account#facebook');
-  this.match('auth/facebook/callback/', 'account#facebookCallback');
-  this.match('logout', 'account#logout');
+  this.get('logout', 'account#logout');
+
+  this.resources('colors');
+  // should be a put
+  this.post('like', 'colors#like')
+  
+  this.match(twitter.loginURL, 'account#twitter');
+  this.match(twitter.callbackURL, 'account#twitterCallback');
+  this.match(facebook.loginURL, 'account#facebook');
+  this.match(facebook.callbackURL, 'account#facebookCallback');
+  this.match(google.loginURL, 'account#google');
+  this.match(google.callbackURL, 'account#googleCallback');
 };

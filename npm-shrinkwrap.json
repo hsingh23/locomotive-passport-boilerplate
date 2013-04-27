@@ -1,6 +1,6 @@
 {
-  "name": "app-name",
-  "version": "0.0.1",
+  "name": "ColorAndWonder",
+  "version": "0.0.5",
   "dependencies": {
     "locomotive": {
       "version": "0.3.6",
@@ -223,6 +223,28 @@
         }
       }
     },
+    "passport-google": {
+      "version": "0.3.0",
+      "from": "passport-google@",
+      "resolved": "https://registry.npmjs.org/passport-google/-/passport-google-0.3.0.tgz",
+      "dependencies": {
+        "pkginfo": {
+          "version": "0.2.3",
+          "from": "pkginfo@0.2.x"
+        },
+        "passport-openid": {
+          "version": "0.3.1",
+          "from": "passport-openid@0.3.x",
+          "resolved": "https://registry.npmjs.org/passport-openid/-/passport-openid-0.3.1.tgz",
+          "dependencies": {
+            "openid": {
+              "version": "0.5.1",
+              "from": "openid@0.5.x"
+            }
+          }
+        }
+      }
+    },
     "mongoose": {
       "version": "3.6.4",
       "from": "mongoose@>= 3.6.0",
@@ -311,6 +333,107 @@
               "from": "bson@0.1.8"
             }
           }
+        }
+      }
+    },
+    "mocha": {
+      "version": "1.9.0",
+      "from": "mocha@",
+      "dependencies": {
+        "commander": {
+          "version": "0.6.1",
+          "from": "commander@0.6.1",
+          "resolved": "https://registry.npmjs.org/commander/-/commander-0.6.1.tgz"
+        },
+        "growl": {
+          "version": "1.7.0",
+          "from": "growl@1.7.x"
+        },
+        "jade": {
+          "version": "0.26.3",
+          "from": "jade@0.26.3",
+          "resolved": "https://registry.npmjs.org/jade/-/jade-0.26.3.tgz",
+          "dependencies": {
+            "mkdirp": {
+              "version": "0.3.0",
+              "from": "mkdirp@0.3.0",
+              "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.0.tgz"
+            }
+          }
+        },
+        "diff": {
+          "version": "1.0.2",
+          "from": "diff@1.0.2",
+          "resolved": "https://registry.npmjs.org/diff/-/diff-1.0.2.tgz"
+        },
+        "debug": {
+          "version": "0.7.2",
+          "from": "debug@*"
+        },
+        "mkdirp": {
+          "version": "0.3.3",
+          "from": "mkdirp@0.3.3",
+          "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.3.tgz"
+        },
+        "ms": {
+          "version": "0.3.0",
+          "from": "ms@0.3.0",
+          "resolved": "https://registry.npmjs.org/ms/-/ms-0.3.0.tgz"
+        }
+      }
+    },
+    "supertest": {
+      "version": "0.6.0",
+      "from": "supertest@",
+      "resolved": "https://registry.npmjs.org/supertest/-/supertest-0.6.0.tgz",
+      "dependencies": {
+        "superagent": {
+          "version": "0.10.0",
+          "from": "superagent@0.10.0",
+          "resolved": "https://registry.npmjs.org/superagent/-/superagent-0.10.0.tgz",
+          "dependencies": {
+            "qs": {
+              "version": "0.5.2",
+              "from": "qs@0.5.2",
+              "resolved": "https://registry.npmjs.org/qs/-/qs-0.5.2.tgz"
+            },
+            "formidable": {
+              "version": "1.0.9",
+              "from": "formidable@1.0.9",
+              "resolved": "https://registry.npmjs.org/formidable/-/formidable-1.0.9.tgz"
+            },
+            "mime": {
+              "version": "1.2.5",
+              "from": "mime@1.2.5",
+              "resolved": "https://registry.npmjs.org/mime/-/mime-1.2.5.tgz"
+            },
+            "emitter-component": {
+              "version": "0.0.6",
+              "from": "emitter-component@0.0.6",
+              "resolved": "https://registry.npmjs.org/emitter-component/-/emitter-component-0.0.6.tgz"
+            },
+            "cookiejar": {
+              "version": "1.3.0",
+              "from": "cookiejar@1.3.0",
+              "resolved": "https://registry.npmjs.org/cookiejar/-/cookiejar-1.3.0.tgz"
+            },
+            "better-assert": {
+              "version": "0.1.0",
+              "from": "better-assert@~0.1.0",
+              "resolved": "https://registry.npmjs.org/better-assert/-/better-assert-0.1.0.tgz",
+              "dependencies": {
+                "callsite": {
+                  "version": "1.0.0",
+                  "from": "callsite@*",
+                  "resolved": "https://registry.npmjs.org/callsite/-/callsite-1.0.0.tgz"
+                }
+              }
+            }
+          }
+        },
+        "methods": {
+          "version": "0.0.1",
+          "from": "methods@0.0.1"
         }
       }
     }

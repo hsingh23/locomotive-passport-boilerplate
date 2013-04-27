@@ -1,113 +1,215 @@
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy
-  , Account = require('../../app/models/account')
-  , TwitterStrategy = require('passport-twitter').Strategy
-  , FacebookStrategy = require('passport-facebook').Strategy;
+var passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
+  Account = require('../../app/models/account'),
+  TwitterStrategy = require('passport-twitter').Strategy,
+  GoogleStrategy = require('passport-google').Strategy,
+  FacebookStrategy = require('passport-facebook').Strategy;
 
-passport.use(new TwitterStrategy({
-    consumerKey: process.env.twitterConsumerKey,
-    consumerSecret: process.env.twitterConsumerSecret,
-    callbackURL: process.env.twitterCallbackURL
+// Twitter auth
+  passport.use(new TwitterStrategy({
+    consumerKey: twitter.consumerKey,
+    consumerSecret: twitter.consumerSecret,
+    callbackURL: twitter.callbackURL,
+    passReqToCallback: true
   },
-  function(token, tokenSecret, profile, done) {
+  function(req, token, tokenSecret, profile, done) {
     "use strict";
-    Account.findTwitter(token, tokenSecret, profile, function(err, user) {
-      if (err) { return done(err); }
-      if (!user){
-        var newUser = new Account({
-          username: profile.username,
-          email: profile.email,
-          name: profile.name,
-          twitter: {
-            twitterID: profile.id,
-            twitterToken: token,
-            twitterTokenSecret: tokenSecret,
-            twitterUsername: profile.username
-          }
-        });
-        newUser.save(function(err) {
-          if (err) {
-            console.log('OH MAY GOASAS');
-            console.log(err);
-            return done(err);
-          }
-        });
-        console.log('loggine newUser'+newUser);
-        return done(null, newUser);
+    var twit = {
+      username: profile.username,
+      id: profile.id,
+      token: token,
+      tokenSecret: tokenSecret,
+      email: profile.email,
+      name: profile.name
+    }, key;
+    for(key in twit) {
+      if(!twit[key]) {
+        delete twit[key];
       }
-      console.log('loggine user'+user);
-      return done(null, user);
-    });
-  }
-));
+    }
+  //     console.log(twit);
+    if (req.user && !req.user.twitter.id){
+      // Need to associate 
+      Account.findByIdAndUpdate(req.user._id, {
+        twitter: twit
+      }, {'new': true}, function(err, user){
+        if (err) { 
+          // console.log(err);
+          return done(err); 
+        }
+        req.user = user;
+        return done(null, req.user);
+      });
+    }
+    else {
+      Account.findTwitter(profile, function(err, user) {
+        if (err) { return done(err); }
+        if (!user){
+          var newUser = new Account({
+            twitter: twit
+          });
+          newUser.save(function(err) {
+            if (err) {
+              // console.log('OH MAY GOASAS');
+              // console.log(err);
+              return done(err);
+            }
+          });
+          // console.log('We have a new twitter user: '+newUser);
+          return done(null, newUser);
+        }
+        else{
+          // console.log('We have an existing twitter user: '+user);
+          return done(null, user);
+        }
+      });
+    }
+  }));
 
-passport.use(new FacebookStrategy({
-    clientID: process.env.facebookClientID,
-    clientSecret: process.env.facebookClientSecret,
-    callbackURL: process.env.facebookCallbackURL
+// Google auth
+  passport.use(new GoogleStrategy({
+    realm: google.realm,
+    returnURL: google.returnURL,
+    passReqToCallback: true
   },
-  function(accessToken, refreshToken, profile, done) {
+  function(req, identifier, profile, done) {
     "use strict";
-    console.log(profile);
-    Account.findFacebook(accessToken, refreshToken, profile, function(err, user) {
-      if (err) { return done(err); }
-      if (!user){
-        var newUser = new Account({
-          facebook: {
-            id: profile.id,
-            username: profile.username,
-            gender: profile.gender,
-            profileUrl: profile.profileUrl,
-            email: profile.emails,
-            name: profile.displayName,
-            accessToken: accessToken,
-            refreshToken: refreshToken
-          }
-        });
-        newUser.save(function(err) {
-          if (err) {
-            console.log('OH MAY FACEOSDKSODK');
-            console.log(err);
-            done(err);
-          }
-        });
-        console.log('loggine newUser'+newUser);
-        return done(null, newUser);
+    var goo = {
+      id: identifier,
+      name: profile.displayName,
+      email: profile.emails[0].value
+    }, key;
+    for(key in goo) {
+      if(!goo[key]) {
+        delete goo[key];
       }
-      else{
-        console.log('loggine user'+user);
+    }
+    if (req.user && !req.user.google.id){
+      // Need to associate account
+      Account.findByIdAndUpdate(req.user._id, {
+        google: goo
+      }, {'new': true}, function(err, user){
+        if (err) { 
+          // console.log(err);
+          return done(err); 
+        }
+        req.user = user;
+        return done(null, req.user);
+      });
+    }
+    else {    
+      Account.findGoogle(identifier, function(err, user) {
+        if (err) { return done(err); }
+        if (!user){
+          var newUser = new Account({
+            google: goo
+          });
+          newUser.save(function(err) {
+            if (err) {
+              return done(err);
+            }
+          });
+          // console.log('We have a new google user: '+newUser);
+          return done(null, newUser);
+        }
+        // console.log('We have an existing google user: '+user);
         return done(null, user);
+      });
+    }
+  }));
+
+// Facebook auth
+  passport.use(new FacebookStrategy({
+      clientID: facebook.clientID,
+      clientSecret: facebook.clientSecret,
+      callbackURL: facebook.callbackURL,
+      passReqToCallback: true
+    },
+    function(req, accessToken, refreshToken, profile, done) {
+      "use strict";
+      var fb = {
+        id: profile._json.id,
+        username: profile._json.username,
+        gender: profile._json.gender,
+        link: profile._json.link,
+        email: profile._json.email,
+        name: profile._json.name,
+        updatedTime: profile._json.updated_time,
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      }, key;
+      for(key in fb) {
+        if(!fb[key]) {
+          delete fb[key];
+        }
       }
-    });
-  }
-));
+      // console.log(fb);
+      // console.log(profile);
+      if (req.user && !req.user.facebook.id){
+        // Need to associate account
+        Account.findByIdAndUpdate(req.user._id, {
+          facebook: fb
+        }, {'new': true}, function(err, user){
+          if (err) { 
+            // console.log(err);
+            return done(err); 
+          }
+          req.user = user;
+          return done(null, req.user);
+        });
+      }
+      else {  
+        Account.findFacebook(profile, function(err, user) {
+          if (err) { return done(err); }
+          if (!user){
+            var newUser = new Account({
+              facebook: fb
+            });
+            newUser.save(function(err, newUser) {
+              if (err) {
+                // console.log('Facebook error!');
+                // console.log(err);
+                return done(err);
+              }
+              else{
+                // console.log('We have a new facebook user: '+newUser);
+                return done(null, newUser);
+              }
+            });
+          }
+          else{
+            // console.log('We have an existing facebook user: '+user);
+            return done(null, user);
+          }
+        });
+      }
+    })
+  );
 
 // Use the LocalStrategy within Passport.
-
-passport.use(new LocalStrategy({
-    usernameField: 'email'
-  },
-  function(email, password, done) {
-    "use strict";
-    // Find the user by username.  If there is no user with the given
-    // username, or the password is not correct, set the user to `false` to
-    // indicate failure.  Otherwise, return the authenticated `user`.
-    Account.localAuthenticate(email, password, function(err, user) {
-      return done(err, user);
-    });
-  }
-));
+  passport.use(new LocalStrategy({
+      usernameField: 'login',
+      passReqToCallback: true
+    },
+    function(req, login, password, done) {
+      "use strict";
+      // Find the user by username, email, or phone-number.  If there is no user with the given
+      // username, or the password is not correct, set the user to `false` to
+      // indicate failure.  Otherwise, return the authenticated `user`.
+      Account.localAuthenticate(login, password, function(err, user) {
+        return done(err, user);
+      });
+    }
+  ));
 
 // Passport session setup.
-
-passport.serializeUser(function(user, done) {
-  "use strict";
-  done(null, user._id);
-});
-
-passport.deserializeUser(function(id, done) {
-  "use strict";
-  Account.findById(id, function (err, user) {
-    done(err, user);
+  passport.serializeUser(function(user, done) {
+    "use strict";
+    done(null, user._id);
   });
-});
+  passport.deserializeUser(function(id, done) {
+    "use strict";
+    Account.findById(id, function (err, user) {
+      done(err, user);
+    });
+  });

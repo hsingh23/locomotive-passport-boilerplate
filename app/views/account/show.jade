@@ -1,7 +1,26 @@
-h1 Welcome #{user.name} #{user.twitter.twitterUsername} #{user.facebook.name}
+extends ../mobile_template
+block content
+  #home(data-role='page', data-title="CaW ~ #{user_name}", data-theme='a')
+    div(data-role='header', data-theme='a')
+      h1.center Welcome #{user_name}
+      //- .center
+        //- img(src="images/caw2.jpg", width="100", alt="Color and Wonder")
+    div(data-role='content')
+      //- a(data-theme='e', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/account/new", data-ajax="false", href='#') Edit Your Profile
+      h1.center Your colors
+      for color in colors
+        a(data-theme='e', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/account/new", data-ajax="false", href=colorPath(String(color._id))) #{color.colorName}
+      br  
+      h1.center(data-theme='a') Colors of your Heart
+      .liked
+        br
+        p.center Coming Soon
 
-#block
-  p User email: #{user.email} #{user.facebook.email} 
-  p 
+      h1.center(data-theme='c') Suggested Colors
+      .suggested
+        br
+        p.center Coming Soon
 
-a(href = urlFor({ controller: 'account', action: 'logout' })) Logout
+      a(data-theme='e', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/account/new", data-ajax="false", href=urlFor({ controller: 'colors', action: 'index' })) Find Colors Near You!
+
+      a(data-theme='e', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/account/new", data-ajax="false", href = urlFor({ controller: 'account', action: 'logout' })) Logout

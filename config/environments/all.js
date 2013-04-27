@@ -1,7 +1,7 @@
-var express = require('express');
-var passport = require('passport');
-var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(express);
+var express = require('express')
+, passport = require('passport')
+, mongoose = require('mongoose')
+, MongoStore = require('connect-mongo')(express);
 
 module.exports = function() {
   // Warn of version mismatch between global "lcm" binary and local installation
@@ -9,6 +9,7 @@ module.exports = function() {
   if (this.version !== require('locomotive').version) {
     console.warn(util.format('version mismatch between local (%s) and global (%s) Locomotive module', require('locomotive').version, this.version));
   }
+  this.datastore(require('locomotive-mongoose'));
   this.set('views', __dirname + '/../../app/views');
   this.set('view engine', 'jade');
 
@@ -29,6 +30,6 @@ module.exports = function() {
   this.use(passport.session());
   this.use(this.router);
   this.use(express.static(__dirname + '/../../public'));
+  console.log(__dirname + '/../../public');
 
-  this.datastore(require('locomotive-mongoose'));
 };

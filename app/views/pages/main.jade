@@ -1,8 +1,23 @@
-h2 Welcome to #{title}
-a(href="/login") Login
-br
-a(href="/auth/twitter/") Twitter
-br
-a(href="/auth/facebook/") Facebook
-br
-a(href="/account/new") Sign Up
+extends ../mobile_template
+
+block content
+  #home(data-role='page', data-title='Home', data-theme='a')
+    div(data-role='header', data-theme='a')
+      .center
+        img(src="images/caw2.jpg", width="100", alt="Color and Wonder")
+    div(data-role='content')
+      .video-wrapper
+        .video-container
+          iframe(width='640', height='390', src='http://www.youtube.com/embed/0vAf8v9FUEg', frameborder='0', allowfullscreen='allowfullscreen')
+      br
+      #social-links
+        h1.center Login/Signup with network
+        a(data-theme='a', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/auth/facebook", data-ajax="false") Facebook
+        a(data-theme='b', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/auth/twitter", data-ajax="false") Twitter
+        a(data-theme='c', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/auth/google", data-ajax="false") Google
+      br
+      #local-links
+        h1.center Login/Signup locally
+        a(data-theme='d', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/login", data-ajax="false") Login
+        a(data-theme='e', data-role="button", data-icon="arrow-r", data-iconpos="left", href="/account/new", data-ajax="false") Sign Up
+
