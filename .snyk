@@ -1,0 +1,67 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - locomotive > express > connect > express-session > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > compression > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > connect-timeout > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > body-parser > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > finalhandler > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > morgan > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-index > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-static > send > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > send > debug:
+        patched: '2017-10-10T18:53:30.165Z'
+  'npm:ms:20170412':
+    - locomotive > express > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > send > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > body-parser > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > compression > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > connect-timeout > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > express-session > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > finalhandler > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > morgan > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-index > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-static > send > debug > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > send > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > connect-timeout > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-static > send > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-favicon > ms:
+        patched: '2017-10-10T18:53:30.165Z'
+  'npm:negotiator:20160616':
+    - locomotive > express > connect > compression > accepts > negotiator:
+        patched: '2017-10-10T18:53:30.165Z'
+    - locomotive > express > connect > serve-index > accepts > negotiator:
+        patched: '2017-10-10T18:53:30.165Z'
+  'npm:uglify-js:20151024':
+    - jade > transformers > uglify-js:
+        patched: '2017-10-10T18:53:30.165Z'
