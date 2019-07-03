@@ -4,7 +4,9 @@
   "private": true,
   "main": "./server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "locomotive": ">= 0.3.0",
@@ -19,12 +21,13 @@
     "mongoose-3x-types": "*",
     "locomotive-mongoose": ">= 0.1.0",
     "bcrypt": ">= 0.5.0",
-    "connect-mongo": "*"
+    "connect-mongo": "*",
+    "snyk": "^1.189.0"
   },
-  "devDependencies":{
+  "devDependencies": {
     "mocha": "~1.9",
-    "supertest": "~0.6",
-    "should": "*",
-    "supertest": "*"
-  }
+    "supertest": "*",
+    "should": "*"
+  },
+  "snyk": true
 }
